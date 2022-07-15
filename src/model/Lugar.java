@@ -17,11 +17,11 @@ public class Lugar {
         this.nome = nome;
     }
 
-    public ZoneId getZonedDateTime() {
+    public ZoneId getZoneId() {
         return zoneId;
     }
 
-    public void setZonedDateTime(ZoneId zoneId) {
+    public void setZoneId(ZoneId zoneId) {
         this.zoneId = zoneId;
     }
 

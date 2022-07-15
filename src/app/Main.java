@@ -6,35 +6,33 @@ import model.Sessao;
 import service.GeracaoSessao;
 
 import java.time.*;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
+        List<Lugar> lugars = List.of(new Lugar("São Paulo", ZoneId.of("America/Sao_Paulo")),
+                new Lugar("Paris", ZoneId.of("Europe/Paris")));
+        for (Lugar lugar : lugars) {
+            Sessao sessao = new Sessao("2022-07-22T10:00:00", lugar);
+            Agenda agenda = new GeracaoSessao().criarAgenda(sessao, 2, 10);
+        }
 
-        ZonedDateTime dataHoraZonaAgora = ZonedDateTime.of(LocalDateTime.now(ZoneOffset.UTC),ZoneId.of("America/Sao_Paulo"));
-        ZonedDateTime dataHoraZonaAgora2 = ZonedDateTime.of(LocalDateTime.now(ZoneOffset.UTC), ZoneId.of("Europe/Paris"));
-        System.out.println(dataHoraZonaAgora);
-        System.out.println(dataHoraZonaAgora2);
-
-        System.out.println(ZoneId.of("America/Sao_Paulo").getRules().getStandardOffset(Instant.now()));
-        System.out.println(ZoneId.of("Europe/Paris").getRules().getStandardOffset(Instant.now()));
-        long x = ChronoUnit.HOURS.between(LocalDateTime.now(), LocalDateTime.now(ZoneOffset.UTC));
-        long y = ChronoUnit.HOURS.between(LocalDateTime.now(), LocalDateTime.now());
-
-        System.out.println(x);
-        System.out.println(LocalDateTime.now(ZoneOffset.UTC));
-
-
-
-/*
-        List<Sessao> sessaos = new ArrayList<>();
-        Sessao sessaoSaoPaulo = new Sessao(LocalDateTime.of(2022, 07, 20, 10, 0, 0), new Lugar("São Paulo", ZoneId.of("America/Sao_Paulo")));
-        Sessao sessaoParis = new GeracaoSessao().mudarDeLocal(sessaoSaoPaulo, new Lugar("Paris", ZoneId.of("America/Sao_Paulo")));
-        sessaos.add(sessaoSaoPaulo);
-        Agenda agenda = Agenda.getInstance(sessaos);
-        */
+        for (Lugar lugar : lugars) {
+            System.out.println("A agenda das sessões para " + lugar.getNome());
+            Agenda agenda = Agenda.getInstance(null);
+            List<Sessao> sessaoList = agenda.getSessaos();
+            List<Sessao> sessaoList1 = sessaoList.stream().filter(sessao -> sessao.getLugar().getNome().equals(lugar.getNome())).collect(Collectors.toList());
+            int count = 0;
+            for (Sessao sessao:sessaoList1) {
+                count++;
+                System.out.printf("%s %03d:\n%s", "Sessao", count, sessao.toString());
+            }
+        }
+        Agenda agenda = Agenda.getInstance(null);
+        System.out.printf("Total de Sessões %03d\n", (long) agenda.getSessaos().size());
+        for (Lugar lugar : lugars) {
+            System.out.printf("Total de Sessões em %s %03d\n", lugar.getNome(), agenda.getSessaos().stream().filter(sessao -> sessao.getLugar().getNome().equals(lugar.getNome())).count());
+        }
     }
 }
