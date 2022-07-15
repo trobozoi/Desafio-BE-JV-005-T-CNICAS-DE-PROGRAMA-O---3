@@ -1,9 +1,7 @@
 package app;
 
-import model.Agenda;
-import model.Lugar;
-import model.Sessao;
-import service.GeracaoSessao;
+import model.*;
+import service.GeracaoSessaoImpl;
 
 import java.time.*;
 import java.util.List;
@@ -11,11 +9,11 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-        List<Lugar> lugars = List.of(new Lugar("São Paulo", ZoneId.of("America/Sao_Paulo")),
-                new Lugar("Paris", ZoneId.of("Europe/Paris")));
+        List<Lugar> lugars = List.of(new LugarImpl("São Paulo", ZoneId.of("America/Sao_Paulo")),
+                new LugarImpl("Paris", ZoneId.of("Europe/Paris")));
         for (Lugar lugar : lugars) {
-            Sessao sessao = new Sessao("2022-07-22T10:00:00", lugar);
-            Agenda agenda = new GeracaoSessao().criarAgenda(sessao, 2, 10);
+            Sessao sessao = new SessaoImpl("2022-07-22T10:00:00", lugar);
+            Agenda agenda = new GeracaoSessaoImpl().criarAgenda(sessao, 2, 10);
         }
 
         for (Lugar lugar : lugars) {

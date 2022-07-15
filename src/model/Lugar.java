@@ -1,32 +1,13 @@
 package model;
 
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Locale;
-import java.util.Objects;
 
-public class Lugar {
-    private String nome;
-    private ZoneId zoneId;
+public interface Lugar {
+    String getNome();
 
-    public String getNome() {
-        return nome;
-    }
+    void setNome(String nome);
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    ZoneId getZoneId();
 
-    public ZoneId getZoneId() {
-        return zoneId;
-    }
-
-    public void setZoneId(ZoneId zoneId) {
-        this.zoneId = zoneId;
-    }
-
-    public Lugar(String nome, ZoneId zoneId) {
-        this.nome = nome;
-        this.zoneId = zoneId;
-    }
+    void setZoneId(ZoneId zoneId);
 }
